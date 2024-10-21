@@ -317,3 +317,7 @@ button {
 		transform: translateY(0);
 	}
 }
+
+.label {
+	pointer-events: none;
+}

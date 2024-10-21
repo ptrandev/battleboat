@@ -482,6 +482,10 @@ Game.prototype.showRestartSidebar = function() {
 // Generates the HTML divs for the grid for both players
 Game.prototype.createGrid = function() {
 	var gridDiv = document.querySelectorAll('.grid');
+
+	// convert number into letter (0 -> A, 1 -> B, etc), create an array of letters
+	var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 	for (var grid = 0; grid < gridDiv.length; grid++) {
 		gridDiv[grid].removeChild(gridDiv[grid].querySelector('.no-js')); // Removes the no-js warning
 		for (var i = 0; i < Game.size; i++) {
@@ -491,6 +495,14 @@ Game.prototype.createGrid = function() {
 				el.setAttribute('data-y', j);
 				el.setAttribute('class', 'grid-cell grid-cell-' + i + '-' + j);
 				gridDiv[grid].appendChild(el);
+
+				// for each grid, add a before element with the coordinates; ensure that
+				// it can be clicked through
+
+				var label = document.createElement('span');
+				label.setAttribute('class', 'label');
+				label.innerHTML = alphabet[j] + (i + 1);
+				el.appendChild(label);
 			}
 		}
 	}
