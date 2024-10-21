@@ -398,7 +398,7 @@ Game.prototype.restartGame = function(e) {
 // Debugging function used to place all ships and just start
 Game.prototype.placeRandomly = function(e){
 	e.target.removeEventListener(e.type, arguments.callee);
-	e.target.self.humanFleet.placeShipsRandomly();
+	e.target.self.humanFleet.placeShipsHumanPredetermined();
 	e.target.self.readyToPlay = true;
 	document.getElementById('roster-sidebar').setAttribute('class', 'hidden');
 	this.setAttribute('class', 'hidden');
@@ -501,7 +501,7 @@ Game.prototype.createGrid = function() {
 
 				var label = document.createElement('span');
 				label.setAttribute('class', 'label');
-				label.innerHTML = alphabet[j] + (i + 1);
+				label.innerHTML = alphabet[i] + (j + 1);
 				el.appendChild(label);
 			}
 		}
@@ -562,7 +562,16 @@ Game.prototype.init = function() {
 	var randomButton = document.getElementById('place-randomly');
 	randomButton.self = this;
 	randomButton.addEventListener('click', this.placeRandomly, false);
-	this.computerFleet.placeShipsRandomly();
+	this.computerFleet.placeShipsPredefined();
+
+	// add grid-ship class to the grid cells that contain ships of the computerFleet
+	for (var i = 0; i < Game.size; i++) {
+		for (var j = 0; j < Game.size; j++) {
+			if (this.computerGrid.cells[i][j] === CONST.TYPE_SHIP) {
+				this.computerGrid.updateCell(i, j, 'ship', CONST.COMPUTER_PLAYER);
+			}
+		}
+	}
 };
 
 // Grid object
@@ -707,6 +716,98 @@ Fleet.prototype.placeShipsRandomly = function() {
 		}
 	}
 };
+
+// Places ships in a predefined manner, useful for debugging
+// ensure a realistic game scenario
+Fleet.prototype.placeShipsPredefined = function() {
+	var shipCoords;
+	for (var i = 0; i < this.fleetRoster.length; i++) {
+		var illegalPlacement = true;
+		var shipType = this.fleetRoster[i].type;
+		var x = 0;
+		var y = 0;
+		var direction = 0;
+
+		if (shipType === 'carrier') {
+			x = 5;
+			y = 0;
+			direction = 0;
+		} else if (shipType === 'battleship') {
+			x = 1;
+			y = 2;
+			direction = 0;
+		} else if (shipType === 'destroyer') {
+			x = 6;
+			y = 3;
+			direction = 1;
+		} else if (shipType === 'submarine') {
+			x = 3;
+			y = 6;
+			direction = 1;
+		} else if (shipType === 'patrolboat') {
+			x = 6;
+			y = 8;
+			direction = 0;
+		}
+
+		if (this.fleetRoster[i].isLegal(x, y, direction)) {
+			this.fleetRoster[i].create(x, y, direction, false);
+			shipCoords = this.fleetRoster[i].getAllShipCells();
+			illegalPlacement = false;
+		} else {
+			continue;
+		}
+		for (var j = 0; j < shipCoords.length; j++) {
+			this.playerGrid.updateCell(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
+		}
+	}
+};
+
+// Places ships in a predetermined manner, useful for debugging
+Fleet.prototype.placeShipsHumanPredetermined = function() {
+	var shipCoords;
+	for (var i = 0; i < this.fleetRoster.length; i++) {
+		var illegalPlacement = true;
+		var shipType = this.fleetRoster[i].type;
+		var x = 0;
+		var y = 0;
+		var direction = 0;
+
+		if (shipType === 'carrier') {
+			x = 4;
+			y = 2;
+			direction = 0;
+		} else if (shipType === 'battleship') {
+			x = 2;
+			y = 3;
+			direction = 1;
+		} else if (shipType === 'destroyer') {
+			x = 4;
+			y = 4;
+			direction = 0;
+		} else if (shipType === 'submarine') {
+			x = 0;
+			y = 0;
+			direction = 0;
+		} else if (shipType === 'patrolboat') {
+			x = 5;
+			y = 8;
+			direction = 0;
+		}
+
+		if (this.fleetRoster[i].isLegal(x, y, direction)) {
+			this.fleetRoster[i].create(x, y, direction, false);
+			shipCoords = this.fleetRoster[i].getAllShipCells();
+			illegalPlacement = false;
+		} else {
+			continue;
+		}
+		for (var j = 0; j < shipCoords.length; j++) {
+			this.playerGrid.updateCell(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
+		}
+	}
+}
+
 // Finds a ship by location
 // Returns the ship object located at (x, y)
 // If no ship exists at (x, y), this returns null instead
