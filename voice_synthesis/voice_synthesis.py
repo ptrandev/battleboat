@@ -98,20 +98,23 @@ def display_menu():
     print("8. Lost the game")
     print("9. Call move (row and column)")
     print("10. Thankful but focusing on the game")
+    print("11. Type your own message")
 
 def main():
     while True:
         display_menu()
         try:
-            choice = int(input("Enter your choice (1-10), or 0 to exit: "))
+            choice = int(input("Enter your choice (1-11), or 0 to exit: "))
             if choice == 0:
                 print("Exiting...")
                 break
-            elif 1 <= choice <= 10:
+            elif 1 <= choice <= 11:
                 if choice == 9:
                     row = input("Enter row: ")
                     col = input("Enter column: ")
                     text = random.choice(voice_lines[choice](row, col))
+                elif choice == 11:
+                    text = input("Type your custom message: ")
                 else:
                     text = random.choice(voice_lines[choice])
 
@@ -127,7 +130,7 @@ def main():
                 else:
                     print("Cancelled. Returning to menu.")
             else:
-                print("Invalid choice. Please choose a number between 1 and 10.")
+                print("Invalid choice. Please choose a number between 1 and 11.")
         except ValueError:
             print("Invalid input. Please enter a number.")
 
