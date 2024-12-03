@@ -719,6 +719,50 @@ Fleet.prototype.placeShipsRandomly = function() {
 
 // Places ships in a predefined manner, useful for debugging
 // ensure a realistic game scenario
+// Fleet.prototype.placeShipsPredefined = function() {
+// 	var shipCoords;
+// 	for (var i = 0; i < this.fleetRoster.length; i++) {
+// 		var illegalPlacement = true;
+// 		var shipType = this.fleetRoster[i].type;
+// 		var x = 0;
+// 		var y = 0;
+// 		var direction = 0;
+
+// 		if (shipType === 'carrier') {
+// 			x = 5;
+// 			y = 0;
+// 			direction = 0;
+// 		} else if (shipType === 'battleship') {
+// 			x = 1;
+// 			y = 2;
+// 			direction = 0;
+// 		} else if (shipType === 'destroyer') {
+// 			x = 6;
+// 			y = 3;
+// 			direction = 1;
+// 		} else if (shipType === 'submarine') {
+// 			x = 3;
+// 			y = 6;
+// 			direction = 1;
+// 		} else if (shipType === 'patrolboat') {
+// 			x = 6;
+// 			y = 8;
+// 			direction = 0;
+// 		}
+
+// 		if (this.fleetRoster[i].isLegal(x, y, direction)) {
+// 			this.fleetRoster[i].create(x, y, direction, false);
+// 			shipCoords = this.fleetRoster[i].getAllShipCells();
+// 			illegalPlacement = false;
+// 		} else {
+// 			continue;
+// 		}
+// 		for (var j = 0; j < shipCoords.length; j++) {
+// 			this.playerGrid.updateCell(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
+// 		}
+// 	}
+// };
+
 Fleet.prototype.placeShipsPredefined = function() {
 	var shipCoords;
 	for (var i = 0; i < this.fleetRoster.length; i++) {
@@ -729,23 +773,21 @@ Fleet.prototype.placeShipsPredefined = function() {
 		var direction = 0;
 
 		if (shipType === 'carrier') {
-			x = 5;
-			y = 0;
-			direction = 0;
-		} else if (shipType === 'battleship') {
-			x = 1;
+			x = 4;
 			y = 2;
 			direction = 0;
-		} else if (shipType === 'destroyer') {
-			x = 6;
+		} else if (shipType === 'battleship') {
+			x = 2;
 			y = 3;
 			direction = 1;
+		} else if (shipType === 'destroyer') {
+			x = 4;
+			y = 5;
 		} else if (shipType === 'submarine') {
-			x = 3;
-			y = 6;
-			direction = 1;
+			x = 0;
+			y = 0;
 		} else if (shipType === 'patrolboat') {
-			x = 6;
+			x = 5;
 			y = 8;
 			direction = 0;
 		}
@@ -774,25 +816,23 @@ Fleet.prototype.placeShipsHumanPredetermined = function() {
 		var direction = 0;
 
 		if (shipType === 'carrier') {
-			x = 4;
-			y = 2;
-			direction = 0;
+			x = 1;
+			y = 4;
 		} else if (shipType === 'battleship') {
-			x = 2;
-			y = 3;
-			direction = 1;
+			x = 4;
+			y = 1;
 		} else if (shipType === 'destroyer') {
 			x = 4;
-			y = 4;
+			y = 7;
 			direction = 0;
 		} else if (shipType === 'submarine') {
 			x = 0;
-			y = 0;
-			direction = 0;
+			y = 7;
+			direction = 1;
 		} else if (shipType === 'patrolboat') {
-			x = 5;
-			y = 8;
-			direction = 0;
+			x = 8;
+			y = 5;
+			direction = 1;
 		}
 
 		if (this.fleetRoster[i].isLegal(x, y, direction)) {
@@ -807,6 +847,48 @@ Fleet.prototype.placeShipsHumanPredetermined = function() {
 		}
 	}
 }
+
+// Places ships in a predetermined manner, useful for debugging
+// Fleet.prototype.placeShipsHumanPredetermined = function() {
+// 	var shipCoords;
+// 	for (var i = 0; i < this.fleetRoster.length; i++) {
+// 		var illegalPlacement = true;
+// 		var shipType = this.fleetRoster[i].type;
+// 		var x = 0;
+// 		var y = 0;
+// 		var direction = 0;
+
+// 		if (shipType === 'carrier') {
+// 			x = 1;
+// 			y = 4;
+// 			direction = 1;
+// 		} else if (shipType === 'battleship') {
+// 			x = 4;
+// 			y = 1;
+// 		} else if (shipType === 'destroyer') {
+// 			x = 4;
+// 			y = 4;
+// 			direction = 1;
+// 		} else if (shipType === 'submarine') {
+// 			x = 6;
+// 			y = 8;
+// 		} else if (shipType === 'patrolboat') {
+// 			x = 7;
+// 			y = 4;
+// 		}
+
+// 		if (this.fleetRoster[i].isLegal(x, y, direction)) {
+// 			this.fleetRoster[i].create(x, y, direction, false);
+// 			shipCoords = this.fleetRoster[i].getAllShipCells();
+// 			illegalPlacement = false;
+// 		} else {
+// 			continue;
+// 		}
+// 		for (var j = 0; j < shipCoords.length; j++) {
+// 			this.playerGrid.updateCell(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
+// 		}
+// 	}
+// }
 
 // Finds a ship by location
 // Returns the ship object located at (x, y)
